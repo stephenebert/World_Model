@@ -24,3 +24,6 @@ pip install "gymnasium[classic-control]" minigrid numpy
 ```bash
 python3 collect_minigrid_data.py
 ```
+
+## Optional
+Run ```view_npz_sample.py`` to visualize obs and next_obs from the saved dataset.
