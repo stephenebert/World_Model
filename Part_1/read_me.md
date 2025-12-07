@@ -1,1 +1,3 @@
+Step 1 make a folder. Then open terminal and go to that folder
 
+``` cd "/Users/steph/Desktop/World Model"```
