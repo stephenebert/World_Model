@@ -2,15 +2,15 @@
 
 A research project exploring **world models** in the MiniGrid environment, comparing prediction-based (JEPA-style) and reconstruction-based approaches for hierarchical representation learning.
 
-## 🎯 Project Overview
+## Project Overview
 
 This repository implements the infrastructure for training and evaluating world models that learn hierarchical representations of MiniGrid environments (agent position, rooms, key/door states, etc.).
 
 **Key Components:**
-- 🤖 **JEPA-style model**: Prediction-only world model using latent dynamics
-- 🎨 **Reconstruction-based model**: Traditional autoencoder approach with pixel reconstruction
-- 📊 **Hierarchy probes**: Tools to analyze learned representations
-- 🎮 **Planning**: Model Predictive Control (MPC) for navigation tasks
+- **JEPA-style model**: Prediction-only world model using latent dynamics
+- **Reconstruction-based model**: Traditional autoencoder approach with pixel reconstruction
+- **Hierarchy probes**: Tools to analyze learned representations
+- **Planning**: Model Predictive Control (MPC) for navigation tasks
 
 ---
 
