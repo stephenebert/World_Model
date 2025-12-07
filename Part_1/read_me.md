@@ -42,7 +42,7 @@ python3 view_npz_sample.py
 ---
 
 ## Understanding the Visualization
-The code makes the agent move by sampling a random discrete action each time through the loop and passing it to ```env.step(action)```. MiniGrid takes that action (like “turn right” or “move forward”), updates the agent’s location and view, and returns the new frame ```next_obs``` that we are saving in the dataset.
+The code makes the agent move by sampling a random discrete action each time through the loop and passing it to ```env.step(action)```. MiniGrid takes that action (like “turn right” or “move forward”), updates the agent’s location and view, and returns the new frame ```next_obs``` that we are saving in the dataset. There is no strategy, no learning, or RL algorithm. ```action = env.action_space.sample()``` means the agent is moving randomly.
 ### Layout Overview
 
 The visualization shows two side-by-side images representing consecutive time steps in the environment.
