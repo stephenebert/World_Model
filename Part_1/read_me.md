@@ -33,6 +33,9 @@ Run the script below to visualize obs and next_obs from the saved dataset:
 
 Figure 1: Example MiniGrid transition
 
+![Figure 1: Example MiniGrid transition](fig_1.png)
+
+
 The left panel (obs) shows the observation at time step t.
 
 The right panel (next_obs) shows the observation at time step t + 1 after taking the stored action.
