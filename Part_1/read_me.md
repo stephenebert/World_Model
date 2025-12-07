@@ -41,7 +41,7 @@ python3 view_npz_sample.py
 
 ---
 
-## 📖 Understanding the Visualization
+## Understanding the Visualization
 
 ### Layout Overview
 
