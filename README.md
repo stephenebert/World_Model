@@ -14,7 +14,7 @@ This repository implements the infrastructure for training and evaluating world 
 
 ---
 
-## 📁 Repository Structure
+## Repository Structure
 ```
 World_Model/
 ├── Part_1/
