@@ -25,64 +25,74 @@ pip install "gymnasium[classic-control]" minigrid numpy
 python3 collect_minigrid_data.py
 ```
 
-## Optional: Visualize a sample transition
 
-Run the script below to visualize obs and next_obs from the saved dataset:
+## Optional: Visualize a Sample Transition
 
-```python3 view_npz_sample.py```
+To better understand the data being collected, visualize observation pairs:
+```bash
+python3 view_npz_sample.py
+```
 
-Figure 1: Example MiniGrid transition
+### Example Output
 
-![Figure 1: Example MiniGrid transition](fig_1.png)
+**Figure 1: MiniGrid transition example**
 
+![Example MiniGrid transition](fig_1.png)
 
-Left image: obs (time step t)
+---
 
-The red triangle is your little robot/agent.
+## 📖 Understanding the Visualization
 
-It’s pointing to the right, so that’s the direction it’s facing.
+### Layout Overview
 
-The green square is the goal tile it wants to reach.
+The visualization shows two side-by-side images representing consecutive time steps in the environment.
 
-The dark grey grid is the floor it can walk on.
+#### **Left image: `obs` (time step t)**
+- **Red triangle** (🔺): The agent/robot
+  - Its orientation shows the direction it's facing (here: pointing right)
+- **Green square** (🟩): The goal tile the agent is trying to reach
+- **Dark gray cells**: Walkable floor tiles
+- **Light gray border**: Walls/boundaries (impassable)
+- **Black region**: Unobserved space (partial observability)
 
-The light grey border is the wall / outside boundary.
+> At time `t`, the agent is in the upper-left corridor with limited visibility. The goal appears in the bottom-right corner of its field of view.
 
-The big black area at the bottom is “I can’t see this yet” – the environment is partially observable, so the agent only sees a window around itself.
+#### **Right image: `next_obs` (time step t + 1)**
+- Shows the environment after the agent takes an action
+- **Red triangle**: Now pointing down in the top-middle area (agent moved and rotated)
+- **Green square**: Goal position unchanged (bottom-right)
+- **Black region**: Significantly reduced—the agent's new position provides better visibility of the central area
 
-So: at time t the agent is in the upper-left corridor, can see some of the grid, and the goal is down in the bottom-right corner of its view.
+---
 
+## 🔍 What Each Data Point Represents
 
-Right image: next_obs (time step t + 1)
+Each transition in your dataset contains:
+```
+"At time t, I saw obs, took action a, and at time t+1, I saw next_obs"
+```
 
-This is what the agent sees one step later, after taking whatever action is stored with this transition.
+Your world model will learn to predict `next_obs` (or its latent representation) given `obs` and `a`.
 
-The red triangle has moved and is now pointing down in the top-middle of the grid.
+---
 
-The green goal is still in the bottom-right.
+## Color/Object Key
 
-The black region is gone here: from this new position the agent’s field of view now covers the whole central area, so more of the world is visible.
+| Visual Element | Meaning |
+|----------------|---------|
+| 🔺 **Red triangle** | Agent (orientation indicates facing direction) |
+| 🟩 **Green square** | Goal tile |
+| **Dark gray cells** | Walkable floor tiles |
+| **Light gray border** | Walls/boundaries (impassable) |
+| **Black region** | Unobserved space (outside agent's field of view) |
 
+---
 
-At each data point in your dataset is basically:
+## Dataset Validation
 
-“At time t I saw obs, took action a, and at time t + 1 I saw next_obs.”
+The visualization confirms that your dataset contains valid environment transitions:
+- Each `(obs, action, next_obs)` triplet represents a real agent movement
+- Observations reflect the agent's partial view of the world
+- Transitions capture state changes as the agent navigates
 
-Your world model’s job later will be: given obs and a, predict something about next_obs (e.g., its latent representation).
-
-
-Color / object meanings:
-
-Red triangle – the agent. The triangle’s orientation indicates the direction the agent is facing.
-
-Green square – the goal cell the agent is trying to reach.
-
-Dark gray grid cells – free floor tiles the agent can move through.
-
-Light gray border – walls or boundary tiles that cannot be crossed.
-
-Black region – area outside the agent’s current field of view (unobserved space).
-
-This confirms that the dataset really consists of valid environment transitions:
-each (obs, action, next_obs) triplet corresponds to the agent moving in the
-MiniGrid world.
+---
