@@ -36,9 +36,40 @@ Figure 1: Example MiniGrid transition
 ![Figure 1: Example MiniGrid transition](fig_1.png)
 
 
-The left panel (obs) shows the observation at time step t.
+Left image: obs (time step t)
 
-The right panel (next_obs) shows the observation at time step t + 1 after taking the stored action.
+The red triangle is your little robot/agent.
+
+It’s pointing to the right, so that’s the direction it’s facing.
+
+The green square is the goal tile it wants to reach.
+
+The dark grey grid is the floor it can walk on.
+
+The light grey border is the wall / outside boundary.
+
+The big black area at the bottom is “I can’t see this yet” – the environment is partially observable, so the agent only sees a window around itself.
+
+So: at time t the agent is in the upper-left corridor, can see some of the grid, and the goal is down in the bottom-right corner of its view.
+
+
+Right image: next_obs (time step t + 1)
+
+This is what the agent sees one step later, after taking whatever action is stored with this transition.
+
+The red triangle has moved and is now pointing down in the top-middle of the grid.
+
+The green goal is still in the bottom-right.
+
+The black region is gone here: from this new position the agent’s field of view now covers the whole central area, so more of the world is visible.
+
+
+At each data point in your dataset is basically:
+
+“At time t I saw obs, took action a, and at time t + 1 I saw next_obs.”
+
+Your world model’s job later will be: given obs and a, predict something about next_obs (e.g., its latent representation).
+
 
 Color / object meanings:
 
