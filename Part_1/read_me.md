@@ -5,6 +5,7 @@ Step 1 make a folder. Then open terminal and go to that folder
 Step 2. Create and activate a virtual environment
 
 ```python3 -m venv .venv
+
 source .venv/bin/activate```
 
 We should now see something like (.venv) at the start of the terminal prompt.
