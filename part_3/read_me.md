@@ -24,3 +24,7 @@ pip install torch gymnasium[minigrid] minigrid numpy
 
 # 4. Run the JEPA training script
 python3 train_jepa.py
+
+
+
+![Example MiniGrid loss](loss.png)
