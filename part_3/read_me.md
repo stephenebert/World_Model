@@ -4,7 +4,37 @@ This part adds a first **JEPA-style world model** on top of the MiniGrid dataset
 
 ## Overview
 
-The goal is to learn a **latent dynamics model** from offline MiniGrid transitions `(obs_t, action_t, obs_{t+1})`.
+In Parts 1-2 we built an **offline MiniGrid dataset** of transitions.  
+At each time step we stored:
+
+- the current observation image `obs_t`
+- the discrete action taken `action_t`
+- the next observation image `obs_{t+1}`
+
+In Part 3, we treat this as a **world-model learning problem**:
+
+> Given `(obs_t, action_t)`, learn an internal representation that can
+> accurately predict what the world will look like one step later.
+
+Instead of predicting raw pixels, we:
+
+1. **Encode each observation into a latent state** `z_t` using a small CNN.
+2. **Learn a latent dynamics model** that takes `(z_t, action_t)` and predicts a
+   next latent state `z_{t+1}^{pred}`.
+3. **Use a target encoder** (an EMA copy of the online encoder) to produce a
+   slowly moving target representation `z_{t+1}^{target}` from `obs_{t+1}`.
+4. **Train with a JEPA/BYOL-style loss** that regresses `z_{t+1}^{pred}` onto
+   `z_{t+1}^{target}` after L2-normalization.
+
+This gives us a **prediction-only world model** in latent space:
+
+- It never reconstructs pixels.
+- It focuses purely on learning a latent state `z_t` that is good for
+  **predicting how the world evolves under actions**.
+- Later, we can probe these latents for structure (agent position, goal
+  location, “room configuration”, etc.) and compare them to
+  reconstruction-based world models.
+
 
 ### The Model
 
@@ -16,6 +46,25 @@ The goal is to learn a **latent dynamics model** from offline MiniGrid transitio
 This approach enables:
 - Comparison to reconstruction-based models
 - Probing for hierarchical structure (agent position, goal, etc.)
+
+### The big picture
+
+There are three main pieces of code behind Part 3:
+
+1. `world_model_jepa.py`: defines the JEPA world model
+
+2. `train_jepa.py`: trains that model on MiniGrid transitions
+
+3. `inspect_jepa_model.py`: loads the checkpoint and peeks inside
+
+All of them sit on top of the data pipeline from Parts 1-2:
+
+Part 1: collect_minigrid_data.py -> saves (obs, action, next_obs, reward, done) into a .npz
+
+Part 2: minigrid_dataset.py -> wraps that .npz as a PyTorch Dataset + DataLoader
+
+The JEPA part then says: "Given (obs_t, action_t, obs_{t+1}), can I learn a latent representation z_t and a dynamics function that predicts z_{t+1}?"
+
 
 ---
 
@@ -101,3 +150,5 @@ python3 inspect_jepa_model.py
 
 ![Example MiniGrid inspection](inspection.png)
 
+
+This confirms that the checkpoint loads correctly, each observation is mapped to a 128-D latent vector, the predicted and target latents match closely (small loss), and the first conv layer weights is well-behaved.
