@@ -82,3 +82,20 @@ jepa_world_model.pt
 ```
 
 in the same folder as `train_jepa.py`.
+
+## Inspecting the learned world model
+
+To get a feel for what the trained JEPA model is doing, you can run
+`inspect_jepa_model.py`, which:
+
+- loads `jepa_world_model.pt`
+- pulls a small batch from the MiniGrid dataset
+- runs a forward pass to get `z_pred` and `z_target`
+- prints basic stats about the first conv layer weights
+
+```bash
+cd "/Users/steph/Desktop/World Model"
+source .venv/bin/activate
+python3 inspect_jepa_model.py
+```
+
