@@ -99,3 +99,5 @@ source .venv/bin/activate
 python3 inspect_jepa_model.py
 ```
 
+![Example MiniGrid inspection](inspection.png)
+
